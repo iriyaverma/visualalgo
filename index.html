@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algorithm Visualization</title>
+  <style>
+    .bars {
+      display: flex;
+      color: white;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 5px;
+    }
+
+    .bar {
+      margin: 0px 4px;
+      width: 50px;
+      background: #2979ff;
+      display: flex;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    @keyframes left {
+      from { left: 0px; }
+      to { left: 50px; opacity: 0; }
+    }
+
+    @keyframes right {
+      from { right: 50px; }
+      to { right: 70px; opacity: 1; }
+    }
+
+    .button-primary, .button-sort {
+      padding: 13px;
+      color: white;
+      border: 0px;
+      background: #2979ff;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .button-sort {
+      display: none;
+      height: 46px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <center>
+    <h1>Visualize Algorithm</h1>
+	<h2>Made by Riya Verma</h2>
+
+  </center>
+  <div style="display:flex; justify-content:center; align-items:center; flex-direction:column; height:550px">
+    <div class="bars" id="bars"></div>
+    <div style="width:99%; background:#FF8F00; height:5px; margin:0px; padding:0px;"></div>
+    <div style="display:flex;"></div>
+    <center>
+      <input type="text" id="array" placeholder="Enter Array comma separated" style="padding:10px; margin-top:10px;">
+      <button id="btn" class="button-primary" onclick="CreateArray()">MAKE</button><br><br>
+      <button id="btn2" class="button-primary" onclick="RandomArray()">Random Array</button>
+      <button id="btn3" class="button-primary" onclick="SwitchView()">UpSideDown</button>
+      <button id="sort" class="button-sort" onclick="SelectionSort()">Selection Sort</button>
+      <button id="insertSort" class="button-sort" onclick="InsertionSort()">Insertion Sort</button>
+      <button id="bsort" class="button-sort" onclick="BubbleSort()">Bubble Sort</button>
+      <button id="Obsort" class="button-sort" onclick="OBubbleSort()">Optimized Bubble Sort</button>
+      <button id="mergeSort" class="button-sort" onclick="MergeSort()">Merge Sort</button>
+    </center>
+  </div>
+
+  <script>
+    const arrayString = document.getElementById("array");
+    const btn = document.getElementById("btn");
+    const btn3 = document.getElementById("btn3");
+    const btn2 = document.getElementById("btn2");
+    const bars = document.getElementById("bars");
+    let array = [];
+
+    function RandomArray() {
+      array = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100));
+      showSortingButtons();
+      makeArray();
+    }
+
+    function CreateArray() {
+      array = arrayString.value.split(",").map(Number);
+      showSortingButtons();
+      makeArray();
+    }
+
+    function showSortingButtons() {
+      document.querySelectorAll('.button-sort').forEach(btn => btn.style.display = "inline-block");
+    }
+
+    function makeArray() {
+      bars.innerHTML = "";
+      array.forEach((num, index) => {
+        const bar = document.createElement("div");
+        bar.style.height = `${Math.abs(num) * 3}px`;
+        bar.className = "bar";
+        bar.id = `bar${index + 1}`;
+        bar.textContent = num;
+        if (Math.abs(num) < 5) {
+          bar.style.color = "black";
+        }
+        bars.appendChild(bar);
+      });
+      hideInputAndButtons();
+    }
+
+    function hideInputAndButtons() {
+      btn.style.display = "none";
+      btn3.style.display = "none";
+      btn2.style.display = "none";
+      arrayString.style.display = "none";
+    }
+
+    const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
+
+    async function SelectionSort() {
+      for (let i = 0; i < array.length; i++) {
+        let min = i;
+        const bar_min = document.getElementById(`bar${i + 1}`);
+        bar_min.style.background = "#f44336";
+        for (let j = i + 1; j < array.length; j++) {
+          const currentBar = document.getElementById(`bar${j + 1}`);
+          currentBar.style.background = "#64dd17";
+          if (array[j] < array[min]) {
+            document.getElementById(`bar${min + 1}`).style.background = "#64dd17";
+            currentBar.style.background = "#f44336";
+            min = j;
+          }
+          await sleep(1000);
+        }
+        [array[min], array[i]] = [array[i], array[min]];
+        bar_min.style.animation = "right 0.5s ease-out";
+        document.getElementById(`bar${min + 1}`).style.animation = "left 0.5s ease-out";
+        makeArray();
+      }
+    }
+
+    async function InsertionSort() {
+      for (let i = 1; i < array.length; i++) {
+        let key = array[i];
+        let j = i - 1;
+        while (j >= 0 && array[j] > key) {
+          array[j + 1] = array[j];
+          j = j - 1;
+        }
+        array[j + 1] = key;
+        makeArray();
+        await sleep(1000);
+      }
+    }
+
+    async function BubbleSort() {
+      for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array.length - i - 1; j++) {
+          const bar1 = document.getElementById(`bar${j + 1}`);
+          const bar2 = document.getElementById(`bar${j + 2}`);
+          bar1.style.background = "#64dd17";
+          bar2.style.background = "#64dd17";
+          await sleep(500);
+          if (array[j] > array[j + 1]) {
+            bar1.style.background = "#f44336";
+            bar1.style.animation = "left 0.5s ease-out";
+            bar2.style.background = "#f44336";
+            bar2.style.animation = "right 0.5s ease-out";
+            [array[j], array[j + 1]] = [array[j + 1], array[j]];
+            await sleep(400);
+          }
+          makeArray();
+        }
+        makeArray();
+      }
+    }
+
+    async function OBubbleSort() {
+      for (let i = 0; i < array.length; i++) {
+        let swap = false;
+        for (let j = 0; j < array.length - i - 1; j++) {
+          const bar1 = document.getElementById(`bar${j + 1}`);
+          const bar2 = document.getElementById(`bar${j + 2}`);
+          bar1.style.background = "#64dd17";
+          bar2.style.background = "#64dd17";
+          await sleep(500);
+          if (array[j] > array[j + 1]) {
+            swap = true;
+            bar1.style.background = "#f44336";
+            bar1.style.animation = "left 0.5s ease-out";
+            bar2.style.background = "#f44336";
+            bar2.style.animation = "right 0.5s ease-out";
+            [array[j], array[j + 1]] = [array[j + 1], array[j]];
+            await sleep(400);
+          }
+          makeArray();
+        }
+        if (!swap) break;
+        makeArray();
+      }
+    }
+
+    async function MergeSort() {
+      async function merge(arr, l, m, r) {
+        let n1 = m - l + 1;
+        let n2 = r - m;
+
+        let L = new Array(n1);
+        let R = new Array(n2);
+
+        for (let i = 0; i < n1; i++)
+          L[i] = arr[l + i];
+        for (let j = 0; j < n2; j++)
+          R[j] = arr[m + 1 + j];
+
+        let i = 0, j = 0, k = l;
+
+        while (i < n1 && j < n2) {
+          if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+          } else {
+            arr[k] = R[j];
+            j++;
+          }
+          k++;
+          makeArray();
+          await sleep(100);
+        }
+
+        while (i < n1) {
+          arr[k] = L[i];
+          i++;
+          k++;
+          makeArray();
+          await sleep(100);
+        }
+
+        while (j < n2) {
+          arr[k] = R[j];
+          j++;
+          k++;
+          makeArray();
+          await sleep(100);
+        }
+      }
+
+      async function mergeSort(arr, l, r) {
+        if (l >= r) {
+          return;
+        }
+        let m = l + parseInt((r - l) / 2);
+        await mergeSort(arr, l, m);
+        await mergeSort(arr, m + 1, r);
+        await merge(arr, l, m, r);
+      }
+
+      await mergeSort(array, 0, array.length - 1);
+    }
+
+    function SwitchView() {
+      const currentFlexDirection = bars.style.flexDirection;
+      bars.style.flexDirection = currentFlexDirection === "column-reverse" ? "column" : "column-reverse";
+    }
+  </script>
+</body>
+</html>

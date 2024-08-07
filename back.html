@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algorithm Visualization</title>
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <header>
+    <h1 class="is-centered">Visualize Algorithms</h1>
+    <h2 class="is-centered">Current view : <span id="current-view">down</span></h2>
+  </header>
+  
+  <main>
+    <div id="wrapper" class="wrapper">
+      <div class="bars" id="bars"></div>
+    </div>
+    
+    <section class="is-centered">
+      <label for="array" class="visually-hidden">Enter Array</label>
+      <input type="text" id="array" placeholder="Enter Array comma separated">
+      <button id="btn" class="button-primary" onclick="CreateArray()">Make Array</button>
+      <br><br>
+      <button id="btn2" class="button-primary" onclick="RandomArray()">Random Array</button>
+      <button id="btn3" class="button-primary" onclick="SwitchView()">UpSideDown</button>
+      <button id="sort" class="button-sort" onclick="SelectionSort()">Selection Sort</button>
+      <button id="insertSort" class="button-sort" onclick="InsertionSort()">Insertion Sort</button>
+      <button id="bsort" class="button-sort" onclick="BubbleSort()">Bubble Sort</button>
+      <button id="Obsort" class="button-sort" onclick="OBubbleSort()">Optimized Bubble Sort</button>
+      <button id="MergeSort" class="button-sort" onclick="mergeSortFunction()">Merge Sort</button>
+    </section>
+  </main>
+  
+  <script src="js/index.js"></script>
+</body>
+</html>
