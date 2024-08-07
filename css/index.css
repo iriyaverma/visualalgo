@@ -1,0 +1,74 @@
+.is-centered {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.wrapper {
+    width:100%;
+    border-top: solid 5px #FF8F00;
+    margin: 10px 0;
+    padding:0px;
+}
+
+.wrapper input {
+    padding: 10px;
+}
+
+.button-primary {
+    padding:13px;
+    color:white;
+    border:0px;
+    background:#2979ff;
+}
+
+.button-sort {
+    display:none;
+    height:46px;
+    color:white;
+    border:0px;
+    background:#2979ff;
+}
+
+.bars {
+    display: flex;
+    color: white;
+    justify-content: center;
+}
+
+.bar {
+    margin: 0px 4px;
+    width: 50px;
+    background: #2979ff;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.view-up.wrapper {
+  border-top: none;
+  border-bottom: solid 5px #FF8F00;
+}
+
+.view-up .bars
+{
+	align-items:flex-end;	
+}
+
+.view-up .bar
+{
+	position:relative;   
+	align-items:center;
+	
+}
+
+
+@keyframes left{
+	from {left: 0px;}
+	to {left: 50px;
+	opacity:0;}
+}
+@keyframes right{
+	from {right: 50px;}
+	to {right: 70px;
+	opacity:1;}
+}
